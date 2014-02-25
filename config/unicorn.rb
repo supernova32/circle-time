@@ -1,9 +1,11 @@
 # config/unicorn.rb
-worker_processes 3 #Integer(ENV["WEB_CONCURRENCY"] || 3)
+worker_processes 5 #Integer(ENV["WEB_CONCURRENCY"] || 3)
 timeout 15
 preload_app true
 
 before_fork do |server, worker|
+
+  @websocket_pid ||= spawn('rake websocket_rails:start_server')
 
   Signal.trap 'TERM' do
     puts 'Unicorn master intercepting TERM and sending myself QUIT instead'

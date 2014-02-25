@@ -10,7 +10,7 @@ function xinspect(obj){
     return str;
 }
 
-var dispatcher = new WebSocketRails('circle-time.herokuapp.com/websocket');
+var dispatcher = new WebSocketRails('circle-time.herokuapp.com:3001/websocket');
 dispatcher.on_open = function(data) {
     console.log('Connection has been established: ' + xinspect(data));
 };
