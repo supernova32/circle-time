@@ -27,8 +27,7 @@ gem 'faye-websocket'
 gem 'haml-rails'
 
 group :production do
-  gem 'pg'
-  gem 'unicorn'
+  gem 'mysql2'
 end
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -45,6 +44,9 @@ group :development do
   gem 'binding_of_caller'
   gem 'pry'
 end
+
+gem 'capistrano'
+gem 'rvm-capistrano'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
