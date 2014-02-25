@@ -12,9 +12,6 @@ production:
       database: mongoid
       # We can set session specific options, like reads executing
       # on secondary nodes, and defaulting the session to safe mode.
-      options:
-        consistency: :eventual
-        safe: true
 
 development:
   sessions:
