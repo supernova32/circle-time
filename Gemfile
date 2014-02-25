@@ -29,6 +29,11 @@ gem 'websocket-rails'
 gem 'faye-websocket'
 gem 'haml-rails'
 
+group :production do
+  gem 'pg'
+  gem 'unicorn'
+end
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
