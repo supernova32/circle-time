@@ -58,13 +58,13 @@ namespace :deploy do
     end
   end
 
-  task :single_restart do
+  task :stop_websocket do
     on roles(:app), in: :sequence, wait: 5 do
-      # Your restart mechanism here, for example:
-      within release_path do
-        execute :bundle, 'exec rake websocket_rails:stop_server RAILS_ENV=production'
+      within current_path do
+        if test("[ -w #{current_path.join('tmp/pids/websocket_rails.pid')} ]")
+          execute :bundle, 'exec rake websocket_rails:stop_server RAILS_ENV=production'
+        end
       end
-      execute :touch, release_path.join('tmp/restart.txt')
     end
   end
 
@@ -75,6 +75,8 @@ namespace :deploy do
       end
     end
   end
+
+  before :updating, :stop_websocket
 
   after :publishing, :restart
 
