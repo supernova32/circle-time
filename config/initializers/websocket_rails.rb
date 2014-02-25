@@ -18,7 +18,7 @@ WebsocketRails.setup do |config|
   if Rails.env.development?
     config.standalone = false
   else
-    #config.standalone = true
+    config.standalone = true
  end
 
   # Change to true to enable channel synchronization between
