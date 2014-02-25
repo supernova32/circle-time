@@ -31,7 +31,7 @@ dispatcher.bind('connection_accepted', function(params){
 });
 
 dispatcher.bind('new_circle_broadcast', function(data){
-    console.log('Received new circle: ' + xinspect(data[0]));
+    console.log('Received new circle: ' + xinspect(data));
     dispatcher.trigger('get_circles');
 });
 
