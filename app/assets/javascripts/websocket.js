@@ -15,20 +15,26 @@ dispatcher.on_open = function(data) {
     console.log('Connection has been established: ' + xinspect(data));
 };
 
-dispatcher.bind('connection_accepted', function(data){
+var save_id = function (data) {
+    console.log('Success Triggered: '+ data.message);
+    my_id = data.message;
+};
+
+var failure = function(response) {
+    console.log("You are not very awesome because: "+response.message);
+};
+
+dispatcher.bind('connection_accepted', function(params){
     console.log('Registering new circle');
-    dispatcher.trigger('register_circle');
+    var data = { data: 'empty'};
+    dispatcher.trigger('register_circle', data, save_id, failure);
 });
 
 dispatcher.bind('new_circle_broadcast', function(data){
-    console.log('Received new circle: ' + xinspect(data));
+    console.log('Received new circle: ' + xinspect(data[0]));
     dispatcher.trigger('get_circles');
 });
 
-dispatcher.bind('my_id', function(data){
-    console.log('Received my id: '+ data);
-    my_id = data;
-});
 dispatcher.bind('circle_disconnected', function(data){
     console.log('Circle disconnected. ID: ' + data);
     dispatcher.trigger('get_circles');
@@ -67,7 +73,7 @@ dispatcher.bind('all_circles', function(data){
     canvas.clear();
     for (var i = 0; i < data.length; i++) {
         var circle;
-        if (data[i].id != my_id) {
+        if (data[i].circle_id != my_id) {
             circle = new fabric.Circle({
                 left: data[i].position_x,
                 top: data[i].position_y,

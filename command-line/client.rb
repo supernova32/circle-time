@@ -3,7 +3,7 @@ require 'eventmachine'
 require 'json'
 
 EM.run {
-  ws = Faye::WebSocket::Client.new('ws://circle-time.herokuapp.com:3001/websocket')
+  ws = Faye::WebSocket::Client.new('ws://circle.patriciocano.me:3001/websocket')
 
   ws.on :open do |event|
     ws.send '["get_circles", {}]'

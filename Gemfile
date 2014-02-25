@@ -24,6 +24,8 @@ gem 'jquery-turbolinks'
 
 gem 'websocket-rails'
 gem 'faye-websocket'
+gem 'mongoid', github: 'mongoid/mongoid'
+gem 'bson_ext'
 gem 'haml-rails'
 
 group :production do
@@ -38,14 +40,17 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-group :development do
+group :development, :test do
   gem 'sqlite3'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
   gem 'pry'
 end
 
-gem 'capistrano'
+gem 'capistrano',  '~> 3.1'
+gem 'capistrano-rails', '~> 1.1'
 gem 'rvm-capistrano'
 
 # Use ActiveModel has_secure_password

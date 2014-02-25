@@ -6,11 +6,13 @@ class CirclesController < WebsocketRails::BaseController
   end
 
   def register_circle
-    Circle.create [position_x: 250, position_y: 250]
-    circle = Circle.last
     controller_store[:circle_count] += 1
-    connection_store[:circle_id] = circle.id
-    send_message :my_id, circle.id
+    #Circle.create [position_x: 250, position_y: 250]
+    #circle = Circle.last
+    circle = Circle.new(circle_id: controller_store[:circle_count])
+    circle.save
+    connection_store[:circle_id] = circle.circle_id
+    trigger_success message: circle.circle_id
     broadcast_message :new_circle_broadcast, circle
   end
 
@@ -21,11 +23,11 @@ class CirclesController < WebsocketRails::BaseController
 
   def retrieve_id
     id = connection_store[:circle_id]
-    send_message :my_id, id
+    trigger_success message: id
   end
 
   def position_circle
-    circle = Circle.find message[:id]
+    circle = Circle.find_by(circle_id: message[:id])
     circle.position_x = message[:position_x]
     circle.position_y = message[:position_y]
     circle.save
@@ -38,10 +40,12 @@ class CirclesController < WebsocketRails::BaseController
 
   def delete_circle
     unless connection_store[:circle_id] == 0
-      circle = Circle.find(connection_store[:circle_id])
-      id = circle.id
-      circle.delete
-      broadcast_message :circle_disconnected, id
+      controller_store[:circle_count] -= 1
+      #circle = Circle.find(connection_store[:circle_id])
+      #id = circle.id
+      #circle.delete
+      Circle.find_by(circle_id: connection_store[:circle_id]).delete
+      broadcast_message :circle_disconnected, connection_store[:circle_id]
     end
   end
 
